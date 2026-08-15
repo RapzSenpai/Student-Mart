@@ -1,0 +1,110 @@
+/* ─── Product Card ──────────────────────────────────────────── */
+.product-card {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: var(--color-base-100, #fff);
+  border: 1px solid var(--color-base-300, #dde1e6);
+  border-radius: 1rem;
+  transition: transform 0.22s ease, box-shadow 0.22s ease;
+  height: 100%; /* stretch in grid cell */
+}
+
+.product-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 16px 36px -14px color-mix(in srgb, var(--color-primary) 35%, transparent);
+}
+
+/* ─── Image area ────────────────────────────────────────────── */
+.product-figure {
+  margin: 0;
+  padding: 0;
+  background: var(--color-base-200, #eceef1);
+  width: 100%;
+  aspect-ratio: 4 / 3; /* consistent image ratio */
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.product-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.35s ease;
+}
+
+.product-card:hover .product-image {
+  transform: scale(1.04);
+}
+
+.product-image-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: color-mix(in srgb, var(--color-primary) 9%, transparent);
+  color: var(--color-primary, #3b82f6);
+}
+
+.product-body {
+  padding: 1.1rem 1.25rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  flex: 1; /* fill remaining card height so actions sit at bottom */
+}
+
+.product-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.product-name {
+  font-size: 0.98rem;
+  font-weight: 600;
+  line-height: 1.4;
+  margin: 0;
+  color: var(--color-base-content, #1f2933);
+  /* clamp to 2 lines so cards stay uniform height */
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.product-price {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--color-base-content, #1f2933);
+  margin: 0;
+}
+
+.product-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 1.5rem;
+}
+
+/* push actions to bottom of card */
+.product-spacer {
+  flex: 1;
+}
+
+.product-actions,
+.admin-actions {
+  margin-top: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.45rem;
+}
+
+.product-actions .btn,
+.admin-actions .btn {
+  width: 100%;
+}

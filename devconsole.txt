@@ -1,0 +1,129 @@
+CheckoutPage.jsx:214  POST https://firestore.googleapis.com/v1/projects/studentmart-13f3b/databases/(default)/documents:commit?key=AIzaSyAsVm9sz62v1hLJKmER6J_OtN3QO2Q6JKM 403 (Forbidden)
+h.ea @ firebase_firestore.js?v=fc8ef76d:1866
+(anonymous) @ firebase_firestore.js?v=fc8ef76d:40058
+qt @ firebase_firestore.js?v=fc8ef76d:40021
+Bt @ firebase_firestore.js?v=fc8ef76d:39900
+(anonymous) @ firebase_firestore.js?v=fc8ef76d:40546
+Promise.then
+Bt @ firebase_firestore.js?v=fc8ef76d:40546
+__PRIVATE_invokeCommitRpc @ firebase_firestore.js?v=fc8ef76d:53148
+commit @ firebase_firestore.js?v=fc8ef76d:53149
+(anonymous) @ firebase_firestore.js?v=fc8ef76d:53215
+(anonymous) @ firebase_firestore.js?v=fc8ef76d:53601
+(anonymous) @ firebase_firestore.js?v=fc8ef76d:53621
+Promise.then
+Yc @ firebase_firestore.js?v=fc8ef76d:53621
+enqueue @ firebase_firestore.js?v=fc8ef76d:53601
+enqueueAndForget @ firebase_firestore.js?v=fc8ef76d:53586
+(anonymous) @ firebase_firestore.js?v=fc8ef76d:53215
+Promise.then
+(anonymous) @ firebase_firestore.js?v=fc8ef76d:53214
+(anonymous) @ firebase_firestore.js?v=fc8ef76d:40205
+(anonymous) @ firebase_firestore.js?v=fc8ef76d:51391
+(anonymous) @ firebase_firestore.js?v=fc8ef76d:53601
+(anonymous) @ firebase_firestore.js?v=fc8ef76d:53621
+Promise.then
+Yc @ firebase_firestore.js?v=fc8ef76d:53621
+enqueue @ firebase_firestore.js?v=fc8ef76d:53601
+enqueueAndForget @ firebase_firestore.js?v=fc8ef76d:53586
+handleDelayElapsed @ firebase_firestore.js?v=fc8ef76d:51391
+(anonymous) @ firebase_firestore.js?v=fc8ef76d:51373
+setTimeout
+start @ firebase_firestore.js?v=fc8ef76d:51373
+createAndSchedule @ firebase_firestore.js?v=fc8ef76d:51367
+enqueueAfterDelay @ firebase_firestore.js?v=fc8ef76d:53629
+mn @ firebase_firestore.js?v=fc8ef76d:40205
+Lc @ firebase_firestore.js?v=fc8ef76d:53212
+Nc @ firebase_firestore.js?v=fc8ef76d:53209
+(anonymous) @ firebase_firestore.js?v=fc8ef76d:53492
+await in (anonymous)
+(anonymous) @ firebase_firestore.js?v=fc8ef76d:53601
+(anonymous) @ firebase_firestore.js?v=fc8ef76d:53621
+Promise.then
+Yc @ firebase_firestore.js?v=fc8ef76d:53621
+enqueue @ firebase_firestore.js?v=fc8ef76d:53601
+enqueueAndForget @ firebase_firestore.js?v=fc8ef76d:53586
+__PRIVATE_firestoreClientTransaction @ firebase_firestore.js?v=fc8ef76d:53490
+runTransaction @ firebase_firestore.js?v=fc8ef76d:55596
+(anonymous) @ CheckoutPage.jsx:214
+callCallback @ react-dom-DZQ9hRBr.js?v=fc8ef76d:3142
+invokeGuardedCallbackDev @ react-dom-DZQ9hRBr.js?v=fc8ef76d:3162
+invokeGuardedCallback @ react-dom-DZQ9hRBr.js?v=fc8ef76d:3201
+invokeGuardedCallbackAndCatchFirstError @ react-dom-DZQ9hRBr.js?v=fc8ef76d:3214
+executeDispatch @ react-dom-DZQ9hRBr.js?v=fc8ef76d:6134
+processDispatchQueueItemsInOrder @ react-dom-DZQ9hRBr.js?v=fc8ef76d:6148
+processDispatchQueue @ react-dom-DZQ9hRBr.js?v=fc8ef76d:6156
+dispatchEventsForPlugins @ react-dom-DZQ9hRBr.js?v=fc8ef76d:6164
+(anonymous) @ react-dom-DZQ9hRBr.js?v=fc8ef76d:6255
+batchedUpdates$1 @ react-dom-DZQ9hRBr.js?v=fc8ef76d:15335
+batchedUpdates @ react-dom-DZQ9hRBr.js?v=fc8ef76d:3061
+dispatchEventForPluginEventSystem @ react-dom-DZQ9hRBr.js?v=fc8ef76d:6254
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ react-dom-DZQ9hRBr.js?v=fc8ef76d:4421
+dispatchEvent @ react-dom-DZQ9hRBr.js?v=fc8ef76d:4416
+dispatchDiscreteEvent @ react-dom-DZQ9hRBr.js?v=fc8ef76d:4396
+CheckoutPage.jsx:214 [2026-08-13T16:12:46.199Z]  @firebase/firestore: Firestore (12.15.0): RestConnection RPC 'Commit' 0x16f37c9a failed with error:  {"code":"permission-denied","name":"FirebaseError"} url:  https://firestore.googleapis.com/v1/projects/studentmart-13f3b/databases/(default)/documents:commit?key=AIzaSyAsVm9sz62v1hLJKmER6J_OtN3QO2Q6JKM request: {"writes":[{"update":{"name":"projects/studentmart-13f3b/databases/(default)/documents/products/kRkwP5IKOURGhE7CDLXz","fields":{"stock":{"integerValue":"4"}}},"updateMask":{"fieldPaths":["stock"]},"currentDocument":{"updateTime":"2026-08-13T15:00:40.728165000Z"}},{"update":{"name":"projects/studentmart-13f3b/databases/(default)/documents/orders/mc1Dz5WwrssMaCK874pq","fields":{"userId":{"stringValue":"1ydsqnhiPUayn2smd4pdUboh9xA3"},"userEmail":{"stringValue":"jay@gmail.com"},"deliveryAddress":{"stringValue":"Campus Pickup"},"pickupLocation":{"stringValue":"Accounting Office"},"notes":{"stringValue":""},"items":{"arrayValue":{"values":[{"mapValue":{"fields":{"productId":{"stringValue":"kRkwP5IKOURGhE7CDLXz"},"name":{"stringValue":"PE Uniform"},"price":{"integerValue":"900"},"quantity":{"integerValue":"1"},"image":{"stringValue":"https://res.cloudinary.com/db3trhp0a/image/upload/v1786633238/aay6l4olcaszn34clr6t.webp"}}}}]}},"totalAmount":{"integerValue":"900"},"paymentMethod":{"stringValue":"cash-on-pickup"},"status":{"stringValue":"pending"}}},"updateTransforms":[{"fieldPath":"createdAt","setToServerValue":"REQUEST_TIME"}]}]}
+defaultLogHandler @ index.esm-DNQdMrQN.js?v=fc8ef76d:1545
+warn @ index.esm-DNQdMrQN.js?v=fc8ef76d:1615
+__PRIVATE_logWarn @ firebase_firestore.js?v=fc8ef76d:33722
+(anonymous) @ firebase_firestore.js?v=fc8ef76d:39901
+Promise.then
+Bt @ firebase_firestore.js?v=fc8ef76d:39900
+(anonymous) @ firebase_firestore.js?v=fc8ef76d:40546
+Promise.then
+Bt @ firebase_firestore.js?v=fc8ef76d:40546
+__PRIVATE_invokeCommitRpc @ firebase_firestore.js?v=fc8ef76d:53148
+commit @ firebase_firestore.js?v=fc8ef76d:53149
+(anonymous) @ firebase_firestore.js?v=fc8ef76d:53215
+(anonymous) @ firebase_firestore.js?v=fc8ef76d:53601
+(anonymous) @ firebase_firestore.js?v=fc8ef76d:53621
+Promise.then
+Yc @ firebase_firestore.js?v=fc8ef76d:53621
+enqueue @ firebase_firestore.js?v=fc8ef76d:53601
+enqueueAndForget @ firebase_firestore.js?v=fc8ef76d:53586
+(anonymous) @ firebase_firestore.js?v=fc8ef76d:53215
+Promise.then
+(anonymous) @ firebase_firestore.js?v=fc8ef76d:53214
+(anonymous) @ firebase_firestore.js?v=fc8ef76d:40205
+(anonymous) @ firebase_firestore.js?v=fc8ef76d:51391
+(anonymous) @ firebase_firestore.js?v=fc8ef76d:53601
+(anonymous) @ firebase_firestore.js?v=fc8ef76d:53621
+Promise.then
+Yc @ firebase_firestore.js?v=fc8ef76d:53621
+enqueue @ firebase_firestore.js?v=fc8ef76d:53601
+enqueueAndForget @ firebase_firestore.js?v=fc8ef76d:53586
+handleDelayElapsed @ firebase_firestore.js?v=fc8ef76d:51391
+(anonymous) @ firebase_firestore.js?v=fc8ef76d:51373
+setTimeout
+start @ firebase_firestore.js?v=fc8ef76d:51373
+createAndSchedule @ firebase_firestore.js?v=fc8ef76d:51367
+enqueueAfterDelay @ firebase_firestore.js?v=fc8ef76d:53629
+mn @ firebase_firestore.js?v=fc8ef76d:40205
+Lc @ firebase_firestore.js?v=fc8ef76d:53212
+Nc @ firebase_firestore.js?v=fc8ef76d:53209
+(anonymous) @ firebase_firestore.js?v=fc8ef76d:53492
+await in (anonymous)
+(anonymous) @ firebase_firestore.js?v=fc8ef76d:53601
+(anonymous) @ firebase_firestore.js?v=fc8ef76d:53621
+Promise.then
+Yc @ firebase_firestore.js?v=fc8ef76d:53621
+enqueue @ firebase_firestore.js?v=fc8ef76d:53601
+enqueueAndForget @ firebase_firestore.js?v=fc8ef76d:53586
+__PRIVATE_firestoreClientTransaction @ firebase_firestore.js?v=fc8ef76d:53490
+runTransaction @ firebase_firestore.js?v=fc8ef76d:55596
+(anonymous) @ CheckoutPage.jsx:214
+callCallback @ react-dom-DZQ9hRBr.js?v=fc8ef76d:3142
+invokeGuardedCallbackDev @ react-dom-DZQ9hRBr.js?v=fc8ef76d:3162
+invokeGuardedCallback @ react-dom-DZQ9hRBr.js?v=fc8ef76d:3201
+invokeGuardedCallbackAndCatchFirstError @ react-dom-DZQ9hRBr.js?v=fc8ef76d:3214
+executeDispatch @ react-dom-DZQ9hRBr.js?v=fc8ef76d:6134
+processDispatchQueueItemsInOrder @ react-dom-DZQ9hRBr.js?v=fc8ef76d:6148
+processDispatchQueue @ react-dom-DZQ9hRBr.js?v=fc8ef76d:6156
+dispatchEventsForPlugins @ react-dom-DZQ9hRBr.js?v=fc8ef76d:6164
+(anonymous) @ react-dom-DZQ9hRBr.js?v=fc8ef76d:6255
+batchedUpdates$1 @ react-dom-DZQ9hRBr.js?v=fc8ef76d:15335
+batchedUpdates @ react-dom-DZQ9hRBr.js?v=fc8ef76d:3061
+dispatchEventForPluginEventSystem @ react-dom-DZQ9hRBr.js?v=fc8ef76d:6254
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ react-dom-DZQ9hRBr.js?v=fc8ef76d:4421
+dispatchEvent @ react-dom-DZQ9hRBr.js?v=fc8ef76d:4416
+dispatchDiscreteEvent @ react-dom-DZQ9hRBr.js?v=fc8ef76d:4396
+CheckoutPage.jsx:286 Error placing order: FirebaseError: Missing or insufficient permissions.
