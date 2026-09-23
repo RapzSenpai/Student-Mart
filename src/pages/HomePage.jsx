@@ -5,6 +5,7 @@ import { collection, getDocs, query, where, orderBy } from 'firebase/firestore'
 import { ProductCard } from '../components/ProductCard'
 import { PenLine, Shirt, Backpack, BookOpen, Package, Search } from 'lucide-react'
 import { fetchCategories } from '../utils/categories'
+import greyBg from '../assets/greybg.jpg'
 import '../css/HomePage.css'
 
 const CATEGORY_ICONS = {
@@ -70,7 +71,7 @@ export function HomePage() {
   const activeCategory = categories.find((c) => c.id === selectedCategory)
 
   return (
-    <div className="home-page">
+    <div className="home-page" style={{ '--home-bg': `url(${greyBg})` }}>
       <section className="store-hero">
         <div className="store-hero-inner">
           <h1>Campus essentials, ready for pickup</h1>

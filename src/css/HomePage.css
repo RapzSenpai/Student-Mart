@@ -1,6 +1,28 @@
 .home-page {
+  position: relative;
   min-height: calc(100vh - 64px);
   background: var(--color-base-200, #eceef1);
+  isolation: isolate;
+}
+
+.home-page::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  top: 64px;
+  background-image: var(--home-bg, url('../assets/greybg.jpg'));
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: 0.22;
+  pointer-events: none;
+  z-index: -1;
+}
+
+.store-hero,
+.store-section {
+  position: relative;
+  z-index: 1;
 }
 
 /* Hero */
