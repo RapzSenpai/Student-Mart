@@ -219,16 +219,20 @@
   border-radius: 12px;
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
+  display: block;
+  width: 100%;
 }
 
 .aod-table-head,
 .aod-row {
   display: grid;
-  grid-template-columns: 100px 1.4fr 1.2fr 60px 90px 110px 180px;
+  grid-template-columns: 100px 1.4fr 1.2fr 60px 90px 110px 170px;
   gap: 12px;
   align-items: center;
   padding: 12px 18px;
   min-width: 820px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .aod-table-head {
@@ -245,6 +249,7 @@
 .aod-table-body {
   max-height: 62vh;
   overflow-y: auto;
+  scrollbar-gutter: stable;
 }
 
 .aod-row {
@@ -252,6 +257,14 @@
   font-size: 0.85rem;
   color: var(--text-color, #1f2933);
   white-space: nowrap;
+  text-align: left;
+  background: none;
+  border-left: none;
+  border-right: none;
+  border-top: none;
+  cursor: pointer;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .aod-row:last-child {
@@ -287,14 +300,17 @@
 }
 
 .aod-col-actions {
-  text-align: right;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
 }
 
 .aod-actions {
-  display: inline-flex;
+  display: flex;
   align-items: center;
   gap: 6px;
   justify-content: flex-end;
+  white-space: nowrap;
 }
 
 .aod-act {

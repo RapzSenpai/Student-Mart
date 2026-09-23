@@ -35,7 +35,7 @@ export function AttributeSelector({ product, onClose, onSelectAttributes }) {
       <div className="attribute-selector-modal" onClick={(e) => e.stopPropagation()}>
         <div className="attr-modal-header">
           <h2>Select Options</h2>
-          <button className="modal-close" onClick={onClose}>×</button>
+          <button className="modal-close" onClick={onClose} aria-label="Close">×</button>
         </div>
 
         <div className="attr-modal-content">
@@ -81,11 +81,13 @@ export function AttributeSelector({ product, onClose, onSelectAttributes }) {
                 type="button"
                 onClick={() => setQuantity(Math.max(1, quantity - 1))}
                 className="qty-btn"
+                aria-label="Decrease quantity"
               >
                 −
               </button>
               <input
                 type="number"
+                id="attr-qty"
                 value={quantity}
                 onChange={(e) => {
                   const val = parseInt(e.target.value) || 1
@@ -93,11 +95,13 @@ export function AttributeSelector({ product, onClose, onSelectAttributes }) {
                 }}
                 min="1"
                 className="qty-input"
+                aria-label="Quantity"
               />
               <button
                 type="button"
                 onClick={() => setQuantity(quantity + 1)}
                 className="qty-btn"
+                aria-label="Increase quantity"
               >
                 +
               </button>

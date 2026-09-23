@@ -23,7 +23,7 @@ export function SizeSelector({ product, onClose, onSelectSize }) {
       <div className="size-selector-modal" onClick={(e) => e.stopPropagation()}>
         <div className="size-modal-header">
           <h2>Select Size</h2>
-          <button className="modal-close" onClick={onClose}>×</button>
+          <button className="modal-close" onClick={onClose} aria-label="Close">×</button>
         </div>
 
         <div className="size-modal-content">
@@ -61,11 +61,13 @@ export function SizeSelector({ product, onClose, onSelectSize }) {
                 type="button"
                 onClick={() => setQuantity(Math.max(1, quantity - 1))}
                 className="qty-btn"
+                aria-label="Decrease quantity"
               >
                 −
               </button>
               <input
                 type="number"
+                id="size-qty"
                 value={quantity}
                 onChange={(e) => {
                   const val = parseInt(e.target.value) || 1
@@ -73,11 +75,13 @@ export function SizeSelector({ product, onClose, onSelectSize }) {
                 }}
                 min="1"
                 className="qty-input"
+                aria-label="Quantity"
               />
               <button
                 type="button"
                 onClick={() => setQuantity(quantity + 1)}
                 className="qty-btn"
+                aria-label="Increase quantity"
               >
                 +
               </button>

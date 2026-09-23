@@ -227,7 +227,7 @@ export function OrderHistoryPage() {
           <div className="modal-content cancel-modal" onClick={(e) => e.stopPropagation()}>
             <div className="modal-header">
               <h3>Cancel Order?</h3>
-              <button className="modal-close" onClick={handleCloseCancelModal}>
+              <button className="modal-close" onClick={handleCloseCancelModal} aria-label="Close">
                 <X size={18} />
               </button>
             </div>

@@ -3,12 +3,24 @@ import { useNavigate } from 'react-router-dom'
 import { db } from '../services/firebase'
 import { collection, getDocs, query, where, doc, getDoc } from 'firebase/firestore'
 import { useAuth } from '../context/AuthContext'
-import { LogOut, ShoppingBag, Package, ChevronDown, Wallet, Clock, CheckCircle2 } from 'lucide-react'
+import { LogOut, ShoppingBag, Package, ChevronDown, Wallet, Clock, CheckCircle2, Contact } from 'lucide-react'
 import { displayOrderRef } from '../utils/orders'
 import '../css/Profile.css'
 
 const isTerminalOrder = (status) =>
   status === 'completed' || status === 'cancelled'
+
+function formatDate(timestamp) {
+  if (!timestamp) return 'N/A'
+  const date = timestamp.toDate?.() || new Date(timestamp)
+  return date.toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+  })
+}
 
 export function Profile() {
   const { user, userRole, logout } = useAuth()
@@ -17,6 +29,7 @@ export function Profile() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
   const [displayName, setDisplayName] = useState('')
+  const [studentId, setStudentId] = useState('')
   const [expandedIds, setExpandedIds] = useState({})
 
   useEffect(() => {
@@ -35,6 +48,7 @@ export function Profile() {
       const userDocSnap = await getDoc(userDocRef)
       if (userDocSnap.exists()) {
         setDisplayName(userDocSnap.data().displayName || 'User')
+        setStudentId(userDocSnap.data().studentId || '')
       }
     } catch (err) {
       console.error('Error fetching user data:', err)
@@ -76,18 +90,6 @@ export function Profile() {
     }
   }
 
-  const formatDate = (timestamp) => {
-    if (!timestamp) return 'N/A'
-    const date = timestamp.toDate?.() || new Date(timestamp)
-    return date.toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit',
-    })
-  }
-
   const getOrderStats = () => {
     const nonCancelled = orders.filter((o) => o.status !== 'cancelled')
     const totalOrders = orders.length
@@ -108,15 +110,29 @@ export function Profile() {
     <div className="profile-page">
       <div className="profile-container">
         <section className="profile-card">
-          <div className="profile-avatar">
-            {displayName ? displayName.charAt(0).toUpperCase() : <UserPlaceholder />}
-          </div>
-          <div className="profile-id">
-            <h1>{displayName}</h1>
-            <p className="profile-email">{user?.email}</p>
-            <span className={`profile-role ${userRole === 'admin' ? 'is-admin' : ''}`}>
-              {userRole === 'admin' ? 'Admin' : 'Student'}
-            </span>
+          <div className="profile-main">
+            <div className="profile-avatar">
+              {displayName ? displayName.charAt(0).toUpperCase() : <UserPlaceholder />}
+            </div>
+            <div className="profile-info">
+              <h1>{displayName}</h1>
+              <p className="profile-email">{user?.email}</p>
+              {(studentId || userRole) && (
+                <div className="profile-badges">
+                  {studentId && (
+                    <span className="profile-chip profile-chip-id">
+                      <Contact size={13} strokeWidth={1.8} />
+                      {studentId}
+                    </span>
+                  )}
+                  <span
+                    className={`profile-chip profile-role ${userRole === 'admin' ? 'is-admin' : ''}`}
+                  >
+                    {userRole === 'admin' ? 'Admin' : 'Student'}
+                  </span>
+                </div>
+              )}
+            </div>
           </div>
           <button onClick={handleLogout} className="profile-logout">
             <LogOut size={16} strokeWidth={1.8} />

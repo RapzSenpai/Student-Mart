@@ -107,6 +107,14 @@
   scrollbar-width: thin;
 }
 
+/* Soft divider spacer between pills and product grid */
+.store-divider {
+  height: 1px;
+  background-color: var(--color-base-300, #dde1e6);
+  opacity: 0.75;
+  margin: 24px 0 28px;
+}
+
 .cat-chip {
   display: inline-flex;
   align-items: center;
@@ -210,6 +218,7 @@
   }
 
   .products-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
   }
 }

@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { useCart } from '../context/CartContext'
 import { Package } from 'lucide-react'
+import { ConfirmDialog } from './ConfirmDialog'
 import '../css/ProductCard.css'
 
 export function ProductCard({ product, onViewDetails }) {
@@ -10,6 +11,7 @@ export function ProductCard({ product, onViewDetails }) {
   const { addToCart, cart } = useCart()
   const navigate = useNavigate()
   const [isAdding, setIsAdding] = useState(false)
+  const [showConfirm, setShowConfirm] = useState(false)
 
   const stock = product.stock
   const inStock = stock === undefined ? true : stock > 0
@@ -29,6 +31,11 @@ export function ProductCard({ product, onViewDetails }) {
       if (onViewDetails) onViewDetails(product.id)
       return
     }
+    setShowConfirm(true)
+  }
+
+  const handleConfirmAdd = () => {
+    setShowConfirm(false)
     setIsAdding(true)
     addToCart(product)
     setTimeout(() => setIsAdding(false), 800)
@@ -52,18 +59,25 @@ export function ProductCard({ product, onViewDetails }) {
   return (
     <div className="card product-card">
       <figure className="product-figure">
-        {primaryImage ? (
-          <img
-            src={primaryImage}
-            alt={product.name}
-            className="product-image"
-            loading="lazy"
-          />
-        ) : (
-          <div className="product-image-placeholder">
-            <Package size={40} strokeWidth={1.5} />
-          </div>
-        )}
+        <button
+          type="button"
+          className="product-figure-btn"
+          onClick={() => onViewDetails?.(product.id)}
+          aria-label={`View ${product.name}`}
+        >
+          {primaryImage ? (
+            <img
+              src={primaryImage}
+              alt={product.name}
+              className="product-image"
+              loading="lazy"
+            />
+          ) : (
+            <div className="product-image-placeholder">
+              <Package size={40} strokeWidth={1.5} />
+            </div>
+          )}
+        </button>
       </figure>
 
       <div className="product-body">
@@ -107,6 +121,17 @@ export function ProductCard({ product, onViewDetails }) {
           </button>
         </div>
       </div>
+      <ConfirmDialog
+        isOpen={showConfirm}
+        title="Add to cart?"
+        message={`Add 1 × ${product.name} to your cart? You can keep shopping after.`}
+        product={product}
+        quantity={1}
+        confirmLabel="Add"
+        cancelLabel="Cancel"
+        onConfirm={handleConfirmAdd}
+        onCancel={() => setShowConfirm(false)}
+      />
     </div>
   )
 }

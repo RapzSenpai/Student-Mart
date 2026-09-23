@@ -89,7 +89,16 @@ export function HomePage() {
 
       <section className="store-section">
         <div className="store-section-head">
-          <h2>Stationery</h2>
+          <h2>{activeCategory ? `${activeCategory.name} Products` : 'All Products'}</h2>
+          {selectedCategory && (
+            <button
+              type="button"
+              className="store-link"
+              onClick={() => setSelectedCategory(null)}
+            >
+              See all
+            </button>
+          )}
         </div>
         <div className="cat-rail">
           {categories.map((category) => {
@@ -112,24 +121,8 @@ export function HomePage() {
             )
           })}
         </div>
-      </section>
 
-      <section className="store-section">
-        <div className="store-section-head">
-          <h2>{activeCategory ? `${activeCategory.name} Products` : 'All Products'}</h2>
-          {selectedCategory && (
-            <a
-              href="#"
-              className="store-link"
-              onClick={(e) => {
-                e.preventDefault()
-                setSelectedCategory(null)
-              }}
-            >
-              See all
-            </a>
-          )}
-        </div>
+        <div className="store-divider" />
 
         {loading && <div className="store-loading">Loading products…</div>}
         {error && <div className="store-error">{error}</div>}

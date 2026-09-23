@@ -3,7 +3,7 @@ import { getAuth } from 'firebase/auth'
 import { STORE_SYSTEM_PROMPT } from '../config/storePrompt'
 import { db, auth } from './firebase'
 
-const GROQ_MODEL = 'llama-3.3-70b-versatile'
+const GROQ_MODEL = 'openai/gpt-oss-120b'
 const GROQ_URL = 'https://api.groq.com/openai/v1/chat/completions'
 
 // ─── Check if the logged-in user is an admin ───────────────────────────────

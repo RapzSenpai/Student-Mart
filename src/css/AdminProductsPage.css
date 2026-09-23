@@ -23,6 +23,13 @@
   margin: 6px 0 0;
 }
 
+.ap-head-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
 .ap-head .btn {
   display: inline-flex;
   align-items: center;

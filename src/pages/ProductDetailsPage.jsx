@@ -4,6 +4,7 @@ import { db } from '../services/firebase'
 import { doc, getDoc } from 'firebase/firestore'
 import { useAuth } from '../context/AuthContext'
 import { useCart } from '../context/CartContext'
+import { ConfirmDialog } from '../components/ConfirmDialog'
 import { Package, Minus, Plus, ArrowLeft } from 'lucide-react'
 import '../css/ProductDetailsPage.css'
 
@@ -18,6 +19,7 @@ export function ProductDetailsPage() {
   const [qty, setQty] = useState(1)
   const [activeImg, setActiveImg] = useState(0)
   const [selectedSize, setSelectedSize] = useState('')
+  const [showConfirm, setShowConfirm] = useState(false)
 
   useEffect(() => {
     let active = true
@@ -75,8 +77,13 @@ export function ProductDetailsPage() {
   const handleAddToCart = () => {
     if (!user) return goLogin()
     if (needsSize && !selectedSize) return
+    setShowConfirm(true)
+  }
+
+  const handleConfirmAdd = () => {
+    setShowConfirm(false)
     addToCart(product, qty, selectedSize)
-    navigate('/cart')
+    navigate('/store')
   }
 
   const handleBuyNow = () => {
@@ -254,6 +261,22 @@ export function ProductDetailsPage() {
           </div>
         </div>
       </div>
+      <ConfirmDialog
+        isOpen={showConfirm}
+        title="Add to cart?"
+        message={
+          needsSize
+            ? `Add ${qty} × ${product.name} (Size: ${selectedSize}) to your cart? You can keep shopping after.`
+            : `Add ${qty} × ${product.name} to your cart? You can keep shopping after.`
+        }
+        product={product}
+        quantity={qty}
+        size={selectedSize}
+        confirmLabel="Add"
+        cancelLabel="Cancel"
+        onConfirm={handleConfirmAdd}
+        onCancel={() => setShowConfirm(false)}
+      />
     </div>
   )
 }

@@ -2,8 +2,9 @@ import React, { useState, useEffect, useCallback } from 'react'
 import { db } from '../services/firebase'
 import { collection, getDocs, query, orderBy, deleteDoc, doc } from 'firebase/firestore'
 import { ProductModal } from '../components/ProductModal'
+import { CategoryModal } from '../components/CategoryModal'
 import { fetchCategories, DEFAULT_CATEGORIES } from '../utils/categories'
-import { Package, Plus, Pencil, Trash2, Search } from 'lucide-react'
+import { Package, Plus, Pencil, Trash2, Search, Tags } from 'lucide-react'
 import '../css/AdminProductsPage.css'
 
 export function AdminProductsPage() {
@@ -14,8 +15,18 @@ export function AdminProductsPage() {
   const [categoryFilter, setCategoryFilter] = useState('all')
 
   const [modalOpen, setModalOpen] = useState(false)
+  const [categoryModalOpen, setCategoryModalOpen] = useState(false)
   const [editingProduct, setEditingProduct] = useState(null)
   const [categories, setCategories] = useState(DEFAULT_CATEGORIES)
+
+  const reloadCategories = useCallback(async () => {
+    try {
+      const list = await fetchCategories()
+      setCategories(list)
+    } catch {
+      // keep current
+    }
+  }, [])
 
   const fetchProducts = useCallback(async () => {
     try {
@@ -35,8 +46,8 @@ export function AdminProductsPage() {
 
   useEffect(() => {
     fetchProducts()
-    fetchCategories().then(setCategories).catch(() => {})
-  }, [fetchProducts])
+    reloadCategories()
+  }, [fetchProducts, reloadCategories])
 
   const handleAdd = () => {
     setEditingProduct(null)
@@ -72,10 +83,20 @@ export function AdminProductsPage() {
           <h1>Products</h1>
           <p className="ap-sub">Manage the store catalog, pricing, and stock.</p>
         </div>
-        <button type="button" className="btn btn-primary" onClick={handleAdd}>
-          <Plus size={16} strokeWidth={2} />
-          Add Product
-        </button>
+        <div className="ap-head-actions">
+          <button
+            type="button"
+            className="btn btn-secondary"
+            onClick={() => setCategoryModalOpen(true)}
+          >
+            <Tags size={16} strokeWidth={2} />
+            Manage Categories
+          </button>
+          <button type="button" className="btn btn-primary" onClick={handleAdd}>
+            <Plus size={16} strokeWidth={2} />
+            Add Product
+          </button>
+        </div>
       </header>
 
       {error && <div className="error-message">{error}</div>}
@@ -197,6 +218,14 @@ export function AdminProductsPage() {
         editingProduct={editingProduct}
         onClose={() => setModalOpen(false)}
         onProductAdded={fetchProducts}
+      />
+
+      <CategoryModal
+        isOpen={categoryModalOpen}
+        categories={categories}
+        products={products}
+        onClose={() => setCategoryModalOpen(false)}
+        onCategoriesUpdated={reloadCategories}
       />
     </div>
   )

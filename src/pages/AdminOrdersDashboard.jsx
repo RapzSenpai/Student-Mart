@@ -674,7 +674,8 @@ export function AdminOrdersDashboard() {
                                       : order.pickupLocation || 'Accounting Office'
                                 return (
                                   <React.Fragment key={order.id}>
-                                    <div
+                                    <button
+                                      type="button"
                                       className={`aod-row ${isExpanded ? 'is-expanded' : ''}`}
                                       onClick={() => setExpandedOrderId(isExpanded ? null : order.id)}
                                     >
@@ -720,7 +721,7 @@ export function AdminOrdersDashboard() {
                                           <Download size={15} strokeWidth={1.8} />
                                         </button>
                                       </span>
-                                    </div>
+                                    </button>
 
                                     {isExpanded && (
                                       <div className="aod-row-detail">

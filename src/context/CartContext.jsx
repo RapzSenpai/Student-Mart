@@ -1,4 +1,4 @@
-import React, { createContext, useState, useContext, useEffect, useRef } from 'react'
+import React, { createContext, useState, useContext, useEffect, useRef, useMemo } from 'react'
 import { useAuth } from './AuthContext'
 
 const CartContext = createContext()
@@ -113,7 +113,7 @@ export function CartProvider({ children }) {
     return cart.reduce((total, item) => total + item.quantity, 0)
   }
 
-  const value = {
+  const value = useMemo(() => ({
     cart,
     addToCart,
     removeFromCart,
@@ -122,7 +122,7 @@ export function CartProvider({ children }) {
     clearCart,
     getTotalPrice,
     getTotalItems,
-  }
+  }), [cart, addToCart, removeFromCart, updateQuantity, updateItemPrice, clearCart, getTotalPrice, getTotalItems])
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>
 }

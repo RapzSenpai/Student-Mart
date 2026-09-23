@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { db } from '../services/firebase'
 import { collection, addDoc, updateDoc, doc, serverTimestamp } from 'firebase/firestore'
-import { X, Plus, ImagePlus, Trash2 } from 'lucide-react'
-import { fetchCategories, addCategory, removeCategory } from '../utils/categories'
+import { X, Plus, Camera, Trash2 } from 'lucide-react'
+import { fetchCategories } from '../utils/categories'
 import '../css/ProductModal.css'
 
 const CLASSIFICATION_OPTIONS = ['Required', 'Recommended', 'Optional', 'Bundle']
@@ -21,9 +21,6 @@ export function ProductModal({ isOpen, category, editingProduct, onClose, onProd
   const [uploadingImage, setUploadingImage] = useState(false)
   const [modalCategory, setModalCategory] = useState('writing')
   const [categories, setCategories] = useState([])
-  const [addingCategory, setAddingCategory] = useState(false)
-  const [newCategoryName, setNewCategoryName] = useState('')
-  const [manageOpen, setManageOpen] = useState(false)
   const [sizes, setSizes] = useState([])
   const [sizeInput, setSizeInput] = useState('')
 
@@ -120,36 +117,6 @@ export function ProductModal({ isOpen, category, editingProduct, onClose, onProd
     setSizes((prev) => prev.filter((_, i) => i !== index))
   }
 
-  const handleAddCategory = async () => {
-    const name = newCategoryName.trim()
-    if (!name) return
-    try {
-      const created = await addCategory(name)
-      const list = await fetchCategories()
-      setCategories(list)
-      setModalCategory(created.id)
-      setNewCategoryName('')
-      setAddingCategory(false)
-    } catch (err) {
-      setError('Could not add category: ' + err.message)
-    }
-  }
-
-  const handleRemoveCategory = async (cat) => {
-    try {
-      await removeCategory(cat.id)
-      const list = await fetchCategories()
-      setCategories(list)
-      if (modalCategory === cat.id) setModalCategory(list[0]?.id || '')
-    } catch (err) {
-      setError(
-        err.message === 'in-use'
-          ? `Cannot remove "${cat.name}" — products still use this category.`
-          : 'Could not remove category: ' + err.message,
-      )
-    }
-  }
-
   const uploadToCloudinary = async (file) => {
     const formData = new FormData()
     formData.append('file', file)
@@ -196,10 +163,8 @@ export function ProductModal({ isOpen, category, editingProduct, onClose, onProd
       const uploadedUrls = []
       if (imageFiles.length) {
         setUploadingImage(true)
-        for (const file of imageFiles) {
-          const url = await uploadToCloudinary(file)
-          uploadedUrls.push(url)
-        }
+        const urls = await Promise.all(imageFiles.map((file) => uploadToCloudinary(file)))
+        uploadedUrls.push(...urls)
         setUploadingImage(false)
       }
 
@@ -301,48 +266,11 @@ export function ProductModal({ isOpen, category, editingProduct, onClose, onProd
           </div>
 
           <div className="form-group">
-            <label htmlFor="category" className="cat-label-row">
-              Category *
-              <button
-                type="button"
-                className="cat-manage-link"
-                onClick={() => setManageOpen((v) => !v)}
-              >
-                Manage
-              </button>
-            </label>
-
-            {manageOpen && (
-              <div className="cat-manage">
-                {categories.length === 0 && (
-                  <p className="cat-manage-empty">No categories yet.</p>
-                )}
-                {categories.map((c) => (
-                  <div key={c.id} className="cat-manage-item">
-                    <span>{c.name}</span>
-                    <button
-                      type="button"
-                      className="cat-manage-remove"
-                      onClick={() => handleRemoveCategory(c)}
-                      aria-label={`Remove ${c.name}`}
-                    >
-                      <X size={14} />
-                    </button>
-                  </div>
-                ))}
-              </div>
-            )}
-
+            <label htmlFor="category">Category *</label>
             <select
               id="category"
               value={modalCategory}
-              onChange={(e) => {
-                if (e.target.value === '__add_new__') {
-                  setAddingCategory(true)
-                  return
-                }
-                setModalCategory(e.target.value)
-              }}
+              onChange={(e) => setModalCategory(e.target.value)}
               required
             >
               {categories.map((c) => (
@@ -350,39 +278,7 @@ export function ProductModal({ isOpen, category, editingProduct, onClose, onProd
                   {c.name}
                 </option>
               ))}
-              <option value="__add_new__">+ Add new category…</option>
             </select>
-
-            {addingCategory && (
-              <div className="cat-add-row">
-                <input
-                  type="text"
-                  value={newCategoryName}
-                  onChange={(e) => setNewCategoryName(e.target.value)}
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter') {
-                      e.preventDefault()
-                      handleAddCategory()
-                    }
-                  }}
-                  placeholder="New category name"
-                  autoFocus
-                />
-                <button type="button" className="btn btn-secondary" onClick={handleAddCategory}>
-                  Add
-                </button>
-                <button
-                  type="button"
-                  className="btn btn-ghost"
-                  onClick={() => {
-                    setAddingCategory(false)
-                    setNewCategoryName('')
-                  }}
-                >
-                  Cancel
-                </button>
-              </div>
-            )}
           </div>
 
           <div className="form-group">
@@ -451,49 +347,56 @@ export function ProductModal({ isOpen, category, editingProduct, onClose, onProd
 
           <div className="form-group">
             <label>Product Images {!editingProduct && '*'}</label>
-            <div className="image-gallery">
-              <label className="image-drop" title="Add photos" aria-label="Add photos">
-                <ImagePlus size={30} strokeWidth={1.8} />
-                <input
-                  type="file"
-                  accept="image/*"
-                  multiple
-                  onChange={handleImageSelect}
-                  className="hidden-file"
-                />
-              </label>
+            
+            <label className="image-dropzone" title="Add photos" aria-label="Add photos">
+              <Camera size={26} strokeWidth={1.8} className="image-dropzone-icon" />
+              <div className="image-dropzone-text">
+                <span className="image-dropzone-primary">Click to upload or drag & drop</span>
+                <span className="image-dropzone-sub">PNG, JPG, or WEBP up to 5MB (multiple allowed)</span>
+              </div>
+              <input
+                type="file"
+                accept="image/*"
+                multiple
+                onChange={handleImageSelect}
+                className="hidden-file"
+              />
+            </label>
 
-              {imageUrls.map((url, idx) => (
-                <div key={`exist-${idx}`} className="image-thumb">
-                  <img src={url} alt={`Product ${idx + 1}`} />
-                  <button
-                    type="button"
-                    className="image-remove"
-                    onClick={() => removeExistingImage(idx)}
-                    aria-label="Remove image"
-                  >
-                    <Trash2 size={13} />
-                  </button>
-                  {idx === 0 && <span className="image-primary">Primary</span>}
-                </div>
-              ))}
-              {imagePreviews.map((url, idx) => (
-                <div key={`new-${idx}`} className="image-thumb">
-                  <img src={url} alt={`New ${idx + 1}`} />
-                  <button
-                    type="button"
-                    className="image-remove"
-                    onClick={() => removeNewImage(idx)}
-                    aria-label="Remove image"
-                  >
-                    <Trash2 size={13} />
-                  </button>
-                  {imageUrls.length === 0 && idx === 0 && (
-                    <span className="image-primary">Primary</span>
-                  )}
-                </div>
-              ))}
-            </div>
+            {(imageUrls.length > 0 || imagePreviews.length > 0) && (
+              <div className="image-gallery">
+                {imageUrls.map((url, idx) => (
+                  <div key={`exist-${idx}`} className="image-thumb">
+                    <img src={url} alt={`Product ${idx + 1}`} />
+                    <button
+                      type="button"
+                      className="image-remove"
+                      onClick={() => removeExistingImage(idx)}
+                      aria-label="Remove image"
+                    >
+                      <Trash2 size={13} />
+                    </button>
+                    {idx === 0 && <span className="image-primary">Primary</span>}
+                  </div>
+                ))}
+                {imagePreviews.map((url, idx) => (
+                  <div key={`new-${idx}`} className="image-thumb">
+                    <img src={url} alt={`New ${idx + 1}`} />
+                    <button
+                      type="button"
+                      className="image-remove"
+                      onClick={() => removeNewImage(idx)}
+                      aria-label="Remove image"
+                    >
+                      <Trash2 size={13} />
+                    </button>
+                    {imageUrls.length === 0 && idx === 0 && (
+                      <span className="image-primary">Primary</span>
+                    )}
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
 
           <div className="form-actions">

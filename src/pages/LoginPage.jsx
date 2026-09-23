@@ -118,6 +118,7 @@ export function LoginPage() {
               <button
                 className="modal-close"
                 onClick={() => setShowForgotPassword(false)}
+                aria-label="Close"
               >
                 ✕
               </button>

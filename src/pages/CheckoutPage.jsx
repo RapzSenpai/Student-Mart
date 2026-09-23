@@ -6,8 +6,6 @@ import {
   doc,
   serverTimestamp,
   getDocs,
-  query,
-  where,
   runTransaction,
 } from 'firebase/firestore'
 import { useCart } from '../context/CartContext'
@@ -54,19 +52,16 @@ export function CheckoutPage() {
       try {
         const changes = []
 
-        for (const item of checkoutItems) {
-          const productsRef = collection(db, 'products')
-          const q = query(productsRef, where('__name__', '==', item.id))
-          const snapshot = await getDocs(productsRef)
+        // Fetch all products once instead of per-item
+        const productsRef = collection(db, 'products')
+        const snapshot = await getDocs(productsRef)
+        const productMap = {}
+        snapshot.docs.forEach((doc) => {
+          productMap[doc.id] = { id: doc.id, ...doc.data() }
+        })
 
-          // Find product by id
-          let currentProduct = null
-          for (const doc of snapshot.docs) {
-            if (doc.id === item.id) {
-              currentProduct = { id: doc.id, ...doc.data() }
-              break
-            }
-          }
+        for (const item of checkoutItems) {
+          const currentProduct = productMap[item.id]
 
           if (currentProduct && currentProduct.price !== item.price) {
             changes.push({
@@ -463,8 +458,8 @@ export function CheckoutPage() {
                     <h4>Payment Method</h4>
                     <div className="payment-method">
                       <div className="payment-option selected">
-                        <input type="radio" name="payment" value="cash" checked readOnly />
-                        <div className="payment-info">
+                        <input type="radio" id="payment-cash" name="payment" value="cash" checked readOnly />
+                        <label htmlFor="payment-cash" className="payment-info">
                           <p className="payment-name">
                             <Wallet size={16} strokeWidth={2} />
                             Cash on Pickup
@@ -472,7 +467,7 @@ export function CheckoutPage() {
                           <p className="payment-description">
                             Pay the exact amount when you collect your order on campus.
                           </p>
-                        </div>
+                        </label>
                       </div>
                     </div>
                   </fieldset>
